@@ -1,0 +1,175 @@
+package com.vipabc.interfacetest.backend;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+import java.io.File;
+import com.vipabc.interfacetest.common.DataTransfer;
+import com.vipabc.interfacetest.common.ParseCellContent;
+import com.vipabc.interfacetest.common.ShowMessage;
+import com.vipabc.interfacetest.utils.Assertion;
+import com.vipabc.interfacetest.utils.ExcelData;
+import com.vipabc.interfacetest.utils.HttpClientUtil;
+import com.vipabc.interfacetest.utils.JsonPathUtil;
+import com.vipabc.interfacetest.utils.ProjectProperties;
+import com.vipabc.interfacetest.utils.SheetData;
+import org.testng.Reporter;
+
+@Listeners({ com.vipabc.interfacetest.utils.AssertionListener.class })
+public class <ClassName> {
+
+	public static SheetData sheetData;
+	public static String responseStr = "";
+	public static List<String[]> expectedResultList = new ArrayList<String[]>();
+	public static List<String[]> transferParamList = new ArrayList<String[]>();
+
+	public static void loadExcel() {
+		String path=System.getProperty("user.dir")+File.separator+ProjectProperties.WORKBOOK_PATH;
+		String sheetName = ProjectProperties.SHEET_NAME;
+		ExcelData excelReader = null;
+
+		try {
+			InputStream in = new FileInputStream(path);
+			excelReader = new ExcelData(in);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (excelReader != null) {
+			sheetData = excelReader.getSheetDataByName(sheetName);
+		}
+	}
+
+	@BeforeSuite
+	public void setUp() {		
+		loadExcel();
+		FileOutputStream testfile;
+		try {
+			testfile = new FileOutputStream(ProjectProperties.TRANSFER_PATH);
+			testfile.write(new String("").getBytes());
+		}  catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+
+	@Test
+	public void test() {
+		Map<String, String> maps = sheetData.getRowDataMap(<RowNum>);
+		String url = "";
+		if (maps.get("Host").endsWith("/")) {
+			url = maps.get("Host") + maps.get("RequsetSubpath");
+		} else {
+			url = maps.get("Host") + "/" + maps.get("RequsetSubpath");
+		}
+		
+		String expectedResult = maps.get("ExpectedResult");
+		String reqType = maps.get("RequestType");	
+		String parameterTransfer=maps.get("ParameterTransfer");		
+				
+		Map<String, String> header = new HashMap<String, String>();
+		ParseCellContent.parseHeader(maps.get("RequestHeader"));
+		header=ParseCellContent.getHeadrMap();		
+
+		try {
+			Class<?> clazz = HttpClientUtil.class;
+			Object obj = clazz.newInstance();
+
+			if (reqType.equalsIgnoreCase("post")) {
+				Method postMethodWithRawBody = clazz.getMethod("postMethodWithRawBody", String.class, Map.class, String.class);
+				String jsonBody = maps.get("PostParams");
+				postMethodWithRawBody.invoke(obj, url, header,jsonBody);
+				Method getRespones = clazz.getMethod("getResponse");
+				responseStr = (String) getRespones.invoke(obj);
+			} else if (reqType.equalsIgnoreCase("get")) {				
+				Map<String, String> pathParam = new HashMap<String, String>();
+				String pathParamStr=maps.get("GetParams");
+				ParseCellContent.parsePathParam(pathParamStr);
+				pathParam=ParseCellContent.getPathParamsMap();
+				
+				Method getTypeRequestMethod = clazz.getMethod("getTypeRequestMethod",String.class, Map.class, Map.class);
+				getTypeRequestMethod.invoke(obj, url, header,pathParam);
+				Method getRespones = clazz.getMethod("getResponse");
+				responseStr = (String) getRespones.invoke(obj);
+			}
+
+			Reporter.log("###################################################################################");
+			Reporter.log("实际返回报文是:\n" + responseStr);
+			Reporter.log("###################################################################################\n");
+
+			ParseCellContent.parseExpectedResult(expectedResult);			
+			expectedResultList = ParseCellContent.getExpectedResultList();
+
+			for (int m = 0; m < expectedResultList.size(); m++) {
+				String assertType = ParseCellContent.getExpectedResultSubContent(m, 0);
+				String jsonPathExpress = ParseCellContent.getExpectedResultSubContent(m, 1);
+				String expectedResultDetail = ParseCellContent.getExpectedResultSubContent(m, 2);
+				String actualResultDetail = JsonPathUtil.parseJsonPath(responseStr, jsonPathExpress, 1);
+				String curClassName = this.getClass().getSimpleName();
+
+				if (assertType.equalsIgnoreCase("equal")) {
+					if (Assertion.verifyEquals(actualResultDetail, expectedResultDetail, "预期结果跟实际结果比对: ")) {
+						System.out.println("第" + (m + 1) + "个断言Pass");
+					} else {
+						System.err.println("第" + (m + 1) + "个断言Failed");
+						ShowMessage.showAssertMessage(curClassName, assertType, jsonPathExpress, expectedResultDetail,
+								actualResultDetail);
+					}
+				} else if (assertType.equalsIgnoreCase("contain")) {
+					if (Assertion.verifyContains(actualResultDetail, expectedResultDetail)) {
+						System.out.println("第" + (m + 1) + "个断言Pass");
+					} else {
+						System.err.println("第" + (m + 1) + "个断言Failed");
+						ShowMessage.showAssertMessage(curClassName, assertType, jsonPathExpress, expectedResultDetail,
+								actualResultDetail);
+					}
+				} else if (assertType.equalsIgnoreCase("regex")) {
+					if (Assertion.verifyRegex(actualResultDetail, expectedResultDetail)) {
+						System.out.println("第" + (m + 1) + "个断言Pass");
+					} else {
+						System.err.println("第" + (m + 1) + "个断言Failed");
+						ShowMessage.showAssertMessage(curClassName, assertType, jsonPathExpress, expectedResultDetail,
+								actualResultDetail);
+					}
+				}
+			}
+			if(parameterTransfer!=null && !parameterTransfer.equals("")){
+				ParseCellContent.parseParamTransfer(parameterTransfer);			
+				transferParamList = ParseCellContent.getParamTransferList();
+				for(int m=0;m<transferParamList.size();m++){
+					String jsonPathExpress1 = ParseCellContent.getParamTransferSubContent(m, 0);
+					String tranferParamName=ParseCellContent.getParamTransferSubContent(m, 1);
+					String transferContent = JsonPathUtil.parseJsonPath(responseStr, jsonPathExpress1, 1);
+					DataTransfer.setData(tranferParamName, transferContent);
+					System.out.println(jsonPathExpress1+"-->"+tranferParamName);					
+				}
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@AfterClass
+	public void testDown() {		
+		expectedResultList.clear();
+		transferParamList.clear();
+	}
+}

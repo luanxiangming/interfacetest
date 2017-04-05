@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="VFS API Test" parallel="false"  preserve-order="true">
+	<parameter name ="testEnv" value="${testEnv}"/>
+    <test verbose="4" name="FileController">
+        <classes>
+            <class name="com.vipabc.interfacetest.VFS.fileController.UploadWithFileConvert"></class>
+        </classes>
+    </test>
+
+	<!--<listeners>-->
+		<!--<listener class-name="org.uncommons.reportng.HTMLReporter" />-->
+		<!--<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />-->
+	<!--</listeners>-->
+	<!--<useDefaultListeners name="false"/>-->
+</suite> <!-- Suite -->

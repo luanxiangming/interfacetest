@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Backend API Test" parallel="false"  preserve-order="true">
+	<parameter name ="testEnv" value="${testEnv}"/>
+    <test verbose="4" name="ClientApiCaller">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.clientApiCaller.RegisterVipJr"></class>
+            <class name="com.vipabc.interfacetest.backend.clientApiCaller.ActivateAccount"></class>
+            <class name="com.vipabc.interfacetest.backend.clientApiCaller.LoginVipjr"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="Customer相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.customerController.CheckRegisterMail"></class>
+            <class name="com.vipabc.interfacetest.backend.customerController.ActivatingAccount"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="Client相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.clientController.GetClientInfoById"></class>
+            <class name="com.vipabc.interfacetest.backend.clientController.GetClientBasicInfoByEmail"></class>
+        </classes>
+    </test>
+	<test verbose="4" name="登录相关接口">
+		<classes>
+			<class name="com.vipabc.interfacetest.backend.loginController.HomeLogin"></class>
+			<class name="com.vipabc.interfacetest.backend.loginController.NewLogin"></class>
+		</classes>
+	</test>
+	<test verbose="4" name="预订课程相关">
+		<classes>
+			<class name="com.vipabc.interfacetest.backend.bookingController.SetReservation"></class>
+			<class name="com.vipabc.interfacetest.backend.bookingController.SetReservationLobby"></class>
+			<class name="com.vipabc.interfacetest.backend.bookingController.SetReservationRegular"></class>
+			<class name="com.vipabc.interfacetest.backend.bookingController.SetReservationCustomize"></class>
+		</classes>
+	</test>
+	<test verbose="4" name="我的课程相关">
+		<classes>
+			<class name="com.vipabc.interfacetest.backend.myLessonsController.PreparePage"></class>
+            <class name="com.vipabc.interfacetest.backend.myLessonsController.ReviewPage"></class>
+            <class name="com.vipabc.interfacetest.backend.myLessonsController.LessonQuestions"></class>
+            <class name="com.vipabc.interfacetest.backend.myLessonsController.LessonInfo"></class>
+			<class name="com.vipabc.interfacetest.backend.myLessonsController.LessonVocab"></class>
+		</classes>
+	</test>
+    <test verbose="4" name="课程录像相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.videoController.ViewMyVideo"></class>
+            <class name="com.vipabc.interfacetest.backend.videoController.RecommandList"></class>
+        </classes>
+    </test>
+	<test verbose="4" name="客户帮助相关">
+		<classes>
+			<class name="com.vipabc.interfacetest.backend.clientHelperController.ReservationInformation"></class>
+		</classes>
+	</test>
+
+    <test verbose="4" name="顧客課程資訊相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.classController.GetClientClasses"></class>
+            <class name="com.vipabc.interfacetest.backend.classController.GetClientLessonHistory"></class>
+            <class name="com.vipabc.interfacetest.backend.classController.GetClientReservedLessons"></class>
+            <class name="com.vipabc.interfacetest.backend.classController.GetClientClassRecordTimeList"></class>
+
+        </classes>
+    </test>
+    <test verbose="4" name="课后問題和評鑑相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.afterClassController.GetAfterQuestion"></class>
+            <class name="com.vipabc.interfacetest.backend.afterClassController.SetAfterQuestionEvaluation"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="学习历史相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.accountController.ClassContract"></class>
+            <class name="com.vipabc.interfacetest.backend.accountController.NewClassRecords"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="故事绘本相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.bookTellerController.GetList"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="DCGS相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.DCGSController.GetDCGS"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="教学顾问相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.consultantController.Consultants"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="客戶等級相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.levelController.GetLevelInfo"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="青少年新闻相关">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.JRNewsController.GetJRHotNewsList"></class>
+            <class name="com.vipabc.interfacetest.backend.JRNewsController.GetJRNewsDetailByNewsID"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="课后作业相关" enabled="false">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.homeworkController.GetHomework"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="CommonController" enabled="false">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.commonController.GetValidateCode"></class>
+        </classes>
+    </test>
+    <test verbose="4" name="RegisterController" enabled="false">
+        <classes>
+            <class name="com.vipabc.interfacetest.backend.registerController.LoginRegister"></class>
+        </classes>
+    </test>
+	<!--<listeners>-->
+		<!--<listener class-name="org.uncommons.reportng.HTMLReporter" />-->
+		<!--<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />-->
+	<!--</listeners>-->
+	<!--<useDefaultListeners name="false"/>-->
+</suite> <!-- Suite -->
