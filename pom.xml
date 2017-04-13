@@ -17,9 +17,8 @@
 		<jboss.resteasy.version>2.1.0.GA</jboss.resteasy.version>
 		<jje.common.version>0.3.0-SNAPSHOT</jje.common.version>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-		<testng.xml.filepath>testng.xml</testng.xml.filepath>
-        <testng.xml.filepath.secondary>testng-vfs.xml</testng.xml.filepath.secondary>
-    </properties>
+		<testng.xml.filepath>testng-vbs.xml</testng.xml.filepath>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -177,6 +176,18 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.10.2</version>
 		</dependency>
+        <dependency>
+            <groupId>net.sf.jacob-project</groupId>
+            <artifactId>jacob</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jacob.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.4.4</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
@@ -223,9 +234,8 @@
 						<testEnvironment>stage</testEnvironment>
 					</systemPropertyVariables>
 					<suiteXmlFiles>
-                        <file>${testng.xml.filepath}</file>
-                        <file>${testng.xml.filepath.secondary}</file>
-					</suiteXmlFiles>
+						<suiteXmlFile>testng_xml/${testng.xml.filepath}</suiteXmlFile>
+                    </suiteXmlFiles>
                     <properties>
                         <property>
                             <name>parallel</name>
@@ -241,7 +251,7 @@
                         </property>
                         <property>
                             <name>surefire.testng.verbose</name>
-                            <value>10</value>
+                            <value>1</value>
                         </property>
                     </properties>
 				</configuration>

@@ -14,6 +14,7 @@ public class BaseMsg {
     public static ConnectToDB ctd = new ConnectToDB();
 
     public static Pro prop = new Pro();
+    public static int brandId = Integer.valueOf(prop.getEnvPropties("brandId", "env"));
 
     public BaseMsg() {
     }

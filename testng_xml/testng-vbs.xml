@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="VFS API Test" parallel="false"  preserve-order="true">
+<suite name="VBS（订课系统）接口测试" parallel="false"  preserve-order="true">
 	<parameter name ="testEnv" value="${testEnv}"/>
-    <test verbose="4" name="FileController">
+    <test verbose="1" name="订课相关">
         <classes>
-            <class name="com.vipabc.interfacetest.VFS.fileController.UploadWithFileConvert"></class>
+            <class name="com.vipabc.interfacetest.backend.bookingController.SetReservation"></class>
         </classes>
     </test>
 

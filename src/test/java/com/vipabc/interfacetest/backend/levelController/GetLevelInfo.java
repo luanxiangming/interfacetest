@@ -19,7 +19,7 @@ public class GetLevelInfo extends Env {
     HttpFixture hf = new HttpFixture();
     @Test(priority = 1, dataProvider = "data", description = "客戶等級資訊", groups = {"Information.Api 3.0"})
     public void getLevelInfo(Map<String, String> dataDriven) {
-        String JsonResult = GetClientBasicInfoByEmailMsg.getClientInfoByEmail(hf, dataDriven.get("email")).replaceAll("\\\\", "");
+        String JsonResult = GetClientBasicInfoByEmailMsg.getClientInfoByEmail(dataDriven.get("email")).replaceAll("\\\\", "");
         String ClientSN = JsonPathUtil.parseJsonPath(JsonResult, "$..ClientSN", 1);
         hf.nextRequest();
 

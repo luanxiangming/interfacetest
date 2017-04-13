@@ -43,8 +43,7 @@ public class SetReservationMsg extends BaseMsg {
      */
     public static void reservation(int actionType, int SstNumber, String SessionTime, int LobbySn, int SessionPeriod, String BookingClassType, int MaxMember, int IsCycleBooking) {
         String data;
-//        String request = prop.getEnvPropties("member.server", "url") + "/aspx/IMO/Booking/SetReservation";
-        String request = prop.getEnvPropties("url.server.v", "url") + "/Center3.0/Booking/SetReservation";
+        String request = brandId == 4 ? prop.getEnvPropties("member.server", "url") + "/aspx/IMO/Booking/SetReservation" : prop.getEnvPropties("url.server.v", "url") + "/Center3.0/Booking/SetReservation";
         if (IsCycleBooking == 0) {
             data = "[{\\\"SstNumber\\\":" + SstNumber + ", " +
                     "\\\"SessionTime\\\":" + "\\\"" + SessionTime + "\\\"" + ", " +
@@ -53,6 +52,7 @@ public class SetReservationMsg extends BaseMsg {
                     "\\\"BookingClassType\\\":" + "\\\"" + BookingClassType + "\\\"" + ", " +
                     "\\\"MaxMember\\\":" + "" + MaxMember + "}]";
         } else {
+            //同时订两堂，第二堂SessionTime+7天
             data = "[{\\\"SstNumber\\\":" + SstNumber + ", " +
                     "\\\"SessionTime\\\":" + "\\\"" + SessionTime + "\\\"" + ", " +
                     "\\\"LobbySn\\\":" + LobbySn + "," +
@@ -60,15 +60,15 @@ public class SetReservationMsg extends BaseMsg {
                     "\\\"BookingClassType\\\":" + "\\\"" + BookingClassType + "\\\"" + ", " +
                     "\\\"MaxMember\\\":" + "" + MaxMember + ",\\\"IsCycleBooking\\\":" + IsCycleBooking + "}," +
                     "{\\\"SstNumber\\\":" + SstNumber + ", " +
-                    "\\\"SessionTime\\\":" + "\\\"" + DateUtils.addDays(SessionTime, 7) + "\\\"" + ", " +
+                    "\\\"SessionTime\\\":" + "\\\"" + DateUtils.getNextCycle(DateUtils.parseTime(SessionTime),7) + "\\\"" + ", " +
                     "\\\"LobbySn\\\":" + LobbySn + "," +
                     "\\\"SessionPeriod\\\":" + SessionPeriod + ", " +
                     "\\\"BookingClassType\\\":" + "\\\"" + BookingClassType + "\\\"" + ", " +
                     "\\\"MaxMember\\\":" + "" + MaxMember + ",\\\"IsCycleBooking\\\":" + IsCycleBooking + "}]";
         }
         htf.addHeaderValue("Content-Type", "application/json; charset=utf-8");
-//        htf.addHeaderValue("Referer", "http://stagemember.vipjr.com/aspx/IMO");
-        htf.addHeaderValue("Referer", "http://stage.vipabc.com/Center3.0");
+        String header = ((brandId == 4) ? prop.getEnvPropties("referer.server", "url") : "http://www.vipabc.com/Center3.0");
+        htf.addHeaderValue("Referer", header);
         String reqBody = "{\"actionType\":" + actionType + ", \"data\": \"" + data + "\"}";
         htf.setRequestBody(reqBody);
         htf.setUrl(request);

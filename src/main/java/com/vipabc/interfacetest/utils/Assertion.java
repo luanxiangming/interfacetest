@@ -14,8 +14,9 @@ public class Assertion {
     public static boolean flag = false; 
     
     //错误信息
-    public static List<Error> errors = new ArrayList<Error>(); 
-    
+    public static List<Error> errors = new ArrayList<Error>();
+
+
     
     /**
      * 	Assert.fail();

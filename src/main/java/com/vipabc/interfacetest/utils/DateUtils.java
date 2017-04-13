@@ -77,6 +77,9 @@ public class DateUtils {
     public static Date parseDate(String sDate) {
         return parseDate(sDate, YYYY_MM_DD);
     }
+    public static Date parseTime(String sTime) {
+        return parseDate(sTime, YYYY_MM_DD_HH_MM_SS);
+    }
 
     public static String formatDate(Date sDate) {
         return formatDate(sDate, YYYY_MM_DD);
@@ -277,6 +280,12 @@ public class DateUtils {
         return cal.get(Calendar.HOUR);
     }
 
+    public static int getHourOfDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.HOUR_OF_DAY);
+    }
+
     /**
      * 生成小班课订课时间
      *
@@ -285,6 +294,26 @@ public class DateUtils {
      */
     public static String getReservationTime(int day) {
         return DateUtils.defaultFormatDate(DateUtils.addDays(new Date(), day)).substring(0, 14) + "30:00";
+    }
+
+    /**
+     * 生成小班课订课时间
+     *
+     * @param day 当前时间延后的天数
+     * @return
+     */
+    public static String getNextCurrent(int day) {
+        return DateUtils.defaultFormatDate(DateUtils.addDays(new Date(), day)).substring(0, 11) + (DateUtils.getHourOfDay(new Date())+1)+ ":30:00";
+    }
+
+    /**
+     * 生成小班课循环订课时间
+     *
+     * @param day 指定时间延后的天数
+     * @return
+     */
+    public static String getNextCycle(Date date, int day) {
+        return DateUtils.defaultFormatDate(DateUtils.addDays(date, day)).substring(0, 11) + (DateUtils.getHourOfDay(new Date())+1)+ ":30:00";
     }
 
     /**

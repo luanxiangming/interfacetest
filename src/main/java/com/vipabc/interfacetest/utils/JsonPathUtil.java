@@ -55,7 +55,11 @@ public class JsonPathUtil {
 
     public static Object getJsonValue(String jsonStr, String searchKey, int index) {
         List<Object> list = JsonPath.read(jsonStr, searchKey);
-        return list.get(index);
+        if (list.size() > 0) {
+            return list.get(index);
+        } else {
+            return "";
+        }
     }
 
 }

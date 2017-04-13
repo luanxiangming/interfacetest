@@ -20,7 +20,7 @@ import com.vipabc.interfacetest.common.ParseCellContent;
 import com.vipabc.interfacetest.common.ShowMessage;
 import com.vipabc.interfacetest.utils.Assertion;
 import com.vipabc.interfacetest.utils.ExcelData;
-import com.vipabc.interfacetest.utils.HttpClientUtil;
+import com.vipabc.interfacetest.utils.HttpClientUtil_bak;
 import com.vipabc.interfacetest.utils.JsonPathUtil;
 import com.vipabc.interfacetest.utils.ProjectProperties;
 import com.vipabc.interfacetest.utils.SheetData;

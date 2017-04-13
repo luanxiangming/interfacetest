@@ -30,7 +30,7 @@ public class SetReservationCustomize extends Env {
         String maxMember=dataDriven.get("MaxMember");       
       
 
-        NewLoginMsg.newLogin2(account, password);
+        NewLoginMsg.login(account, password);
         SetReservationCustomizeMsg.setReservationCustomize(actionType, sstNumber, sessionTime, lobbySn, SessionPeriod, bookingClassType, maxMember);
         
         Assert.assertEquals(htf.getStatus(), 200);

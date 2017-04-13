@@ -785,24 +785,29 @@ public class HttpFixture {
         return false;
     }
 
-    public Object getValue(Object... searchKey) {
+    /**
+     * 默认从body中提取，也可以自定义内容提取，可以参数key|key,index|body,key|body,key,indx
+     * @param params
+     * @return
+     */
+    public Object getValue(Object... params) {
         String str = this.Body;
         int index = 0;
-        if (searchKey.length == 0) {
+        if (params.length == 0) {
             return str;
         }
-        String key = (String) searchKey[0];
-        if (searchKey.length == 2) {
-            if (searchKey[1] instanceof String) {
-                key = (String) searchKey[1];
+        String key = (String) params[0];
+        if (params.length == 2) {
+            if (params[1] instanceof String) {
+                key = (String) params[1];
             } else {
-                index = (Integer) searchKey[1];
+                index = (Integer) params[1];
             }
         }
-        if (searchKey.length == 3) {
-            str = (String) searchKey[0];
-            key = (String) searchKey[1];
-            index = (Integer) searchKey[2];
+        if (params.length == 3) {
+            str = (String) params[0];
+            key = (String) params[1];
+            index = (Integer) params[2];
         }
         return JsonPathUtil.getJsonValue(str, key, index);
     }
