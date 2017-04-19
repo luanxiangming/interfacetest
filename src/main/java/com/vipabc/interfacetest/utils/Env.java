@@ -30,7 +30,7 @@ public class Env {
     public static boolean haveOverCount = false;
     public static ConnectToDB ctd = null;
 
-    @BeforeClass
+    @BeforeClass(description = "测试环境设置")
     public void Env() {
         if (System.getProperty("qa_test_home") == null) {
             System.setProperty("qa_test_home", ".");
@@ -79,11 +79,11 @@ public class Env {
     public void afterSuite(ITestContext context) {
         if (caseName.length() > 0 && !haveOverCount) {
 //            javaMail.sendSMS(caseName + " :执行失败！详情请参考报告http://172.16.233.59:9090/report-dev/Report.html");
-            System.out.println(caseName + " :执行失败！详情请参考报告http://172.16.233.59:9090/report-dev/Report.html");
+            System.out.println(caseName + " :执行失败! ");
         }
         else
         {
-            System.out.println("执行成功，或连续失败3次以上，不发送短信");
+            System.out.println("执行成功，或连续失败3次以上");
         }
     }
 

@@ -231,23 +231,23 @@
                 }
 
                 var chartContainer = document.getElementById('chart-container');
-
+                
                 if (success) {
                     var chart = document.createElement('embed');
-
+                    
                     chart.src = 'overview-chart.svg';
                     chart.type = 'image/svg+xml';
                     chart.width = chartWidth;
                     chart.height = chartHeight;
-
+                    
                     chartContainer.appendChild(chart);
                 } else {
                     var message = document.createElement('h4');
                     var text = document.createTextNode('SVG Pie Charts are not available. Please install a SVG viewer for your browser.');
-
+                    
                     message.style.color = 'navy';
                     message.appendChild(text);
-
+                    
                     chartContainer.appendChild(message);
                 }
             }
@@ -343,7 +343,7 @@
         <xsl:param name="testCaseElements"/>
         <xsl:value-of select="if (count($testCaseElements/class/test-method[(@status='FAIL') and (not(@is-config))]) > 0) then 'suiteStatusFail' else 'suiteStatusPass'"/>
     </xsl:function>
-
+    
     <xsl:function name="testng:formatDuration">
         <xsl:param name="durationMs"/>
         <!--Days-->
@@ -445,7 +445,7 @@
                     <xsl:variable name="testCaseElements" select="
                     if (suite/@url) then
                         if (document(suite/@url)/suite/test/@url)
-                            then document(document(suite/@url)/suite/test/@url)/test
+                            then document(document(suite/@url)/suite/test/@url)/test 
                             else document(suite/@url)/suite/test
                         else suite/test"/>
                     <xsl:variable name="failedCount" select="testng:suiteMethodsCount($testCaseElements, 'FAIL')"/>
@@ -546,7 +546,7 @@
                                     <xsl:with-param name="totalCount"
                                                     select="testng:suiteMethodsCount($testCaseElements, '*')"/>
                                     <xsl:with-param name="totalDuration"
-                                                    select="testng:formatDuration(./@duration-ms)"/>
+                                                    select="testng:formatDuration(./@duration-ms)"/>                                                    
                                 </xsl:call-template>
                             </tr>
                             <xsl:for-each select="$testCaseElements">

@@ -2,11 +2,9 @@ package com.vipabc.interfacetest.backend.bookingController;
 
 import com.vipabc.interfacetest.backend.classController.EnterSessionMsg;
 import com.vipabc.interfacetest.backend.classController.GetClientClassesMsg;
-import com.vipabc.interfacetest.backend.clientController.GetClientBasicInfoByEmailMsg;
 import com.vipabc.interfacetest.backend.loginController.NewLoginMsg;
 import com.vipabc.interfacetest.utils.DateUtils;
 import com.vipabc.interfacetest.utils.Env;
-import com.vipabc.interfacetest.utils.JsonPathUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -26,8 +24,11 @@ public class SetReservation extends Env {
     int day = 0;
     private String SessionTime;
     private String BookingClassType;
+    private List<String> SessionSnList = new ArrayList<>();
+    private List<String> SessionTimeList = new ArrayList<>();
 
-    @Test(priority = 1, dataProvider = "data", description = "预订课程", groups = {"functiontest"})
+
+    @Test(priority = 1, dataProvider = "data", description = "预订课程", groups = {"functiontest"}, timeOut = 10000)
     public void setReservation(Map<String, String> dataDriven) throws IOException {
         NewLoginMsg.login(dataDriven.get("account"), dataDriven.get("password"));
 
@@ -54,18 +55,20 @@ public class SetReservation extends Env {
         }
 
         if (day != 0) {
-            String JsonResult = GetClientBasicInfoByEmailMsg.getClientInfoByEmail(dataDriven.get("account")).replaceAll("\\\\", "");
-            String ClientSN = JsonPathUtil.parseJsonPath(JsonResult, "$..ClientSN", 1);
-            GetClientClassesMsg.getClientClasses(brandId, Integer.valueOf(ClientSN), "8191", 64, SessionTime, SessionTime);
-            List<String> SessionSnList = new ArrayList<>();
+            GetClientClassesMsg.getClientClasses(brandId, Integer.valueOf(dataDriven.get("ClientSn")), "8191", 64, SessionTime, SessionTime);
+
             for (Object body : Arrays.asList(htf.getValue())) {
                 for ( int i = 0; i < htf.findNumberofStringinResponse("SessionSn"); i++) {
                     SessionSnList.add(htf.getValue(body, ".SessionSn", i).toString());
+                    SessionTimeList.add(htf.getValue(body, ".BeginDateTime", i).toString().replaceAll("T", " "));
                 }
             }
+
             System.out.println("SessionSnList: " + SessionSnList.toString());
+            System.out.println("SessionTimeList: " + SessionTimeList.toString());
+
             for(String SessionSn : SessionSnList){
-                EnterSessionMsg.enterSession(brandId, Integer.valueOf(ClientSN),false, SessionSn);
+                EnterSessionMsg.enterSession(brandId, Integer.valueOf(dataDriven.get("ClientSn")),false, SessionSn);
                 for (Object body : Arrays.asList(htf.getValue())) {
                     Assert.assertEquals(htf.getStatus(), 200);
                     Assert.assertEquals(htf.getValue(body, ".SessionSn"), SessionSn);
@@ -81,20 +84,18 @@ public class SetReservation extends Env {
         return new ExcelProvider(this, "setReservation");
     }
 
-    @BeforeMethod
+    @BeforeMethod(description = "课程预订测试开始：随机生成1周内的订课时间")
     public void beforeTest() {
-        System.out.println("课程预订测试开始：随机生成1周内的订课时间");
+        SessionSnList.clear();
+        SessionTimeList.clear();
         day = new Random().nextInt(8);
         SessionTime = DateUtils.getNextCurrent(day);
     }
 
-    @AfterMethod
+    @AfterMethod(description = "课程预订测试结束：取消订课操作")
     public void afterTest() {
-        System.out.println("课程预订测试结束：取消订课操作");
-        SetReservationMsg.reservation(2, 0, SessionTime, LobbySn, SessionPeriod, BookingClassType, 0, IsCycleBooking);
-        if (day == 0) {
-            Assert.assertEquals(htf.getValue(".Success"), false);
-        } else {
+        for (String sessionTime : SessionTimeList) {
+            SetReservationMsg.reservation(2, 0, sessionTime, LobbySn, SessionPeriod, BookingClassType, 0, 0);
             Assert.assertEquals(htf.getValue(".Success"), true);
         }
     }
