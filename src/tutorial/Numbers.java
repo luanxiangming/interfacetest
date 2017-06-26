@@ -13,6 +13,19 @@ public class Numbers {
 
     }
 
+    public static void test_valueOf() {
+        // valueOf() 方法用于返回给定参数的原生 Number 对象值，参数可以是原生数据类型, String等
+        System.out.println("*****valueOf(装箱)*****");
+        Integer x = Integer.valueOf(9);
+        Double c = Double.valueOf(5);
+        Float f = Float.valueOf("80");
+        Integer b = Integer.valueOf("444", 16);   // 使用 16 进制
+        System.out.println(x);
+        System.out.println(c);
+        System.out.println(f);
+        System.out.println(b);
+    }
+
     public static void test_xxxValue() {
         // xxxValue() 方法用于将 Number 对象转换为 xxx 数据类型的值并返回
         System.out.println("*****xxxValue(拆箱)*****");
@@ -49,20 +62,6 @@ public class Numbers {
         System.out.println("Integer 5 equals Integer 10: " + x.equals(y));
         System.out.println("Integer 5 equals Integer 5: " + x.equals(z));
         System.out.println("Integer 5 equals short 5: " + x.equals(s));
-    }
-
-    public static void test_valueOf() {
-        // valueOf() 方法用于返回给定参数的原生 Number 对象值，参数可以是原生数据类型, String等
-        System.out.println("*****valueOf(装箱)*****");
-        Integer x = Integer.valueOf(9);
-        Double c = Double.valueOf(5);
-        Float f = Float.valueOf("80");
-        Integer b = Integer.valueOf("444", 16);   // 使用 16 进制
-        System.out.println(x);
-        System.out.println(c);
-        System.out.println(f);
-        System.out.println(b);
-
     }
 
     public static void test_toString() {
