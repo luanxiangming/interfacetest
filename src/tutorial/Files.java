@@ -11,9 +11,9 @@ public class Files {
         // 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk
         OutputStreamWriter writer = new OutputStreamWriter(fos, "UTF-8");
 
-        char[] forWrite = {'中', '文', '输', '入'};
-        for (int i = 0; i < forWrite.length; i++) {
-            writer.append(forWrite[i]);  // writes the bytes
+        char[] content = {'中', '文', '输', '入'};
+        for (int i = 0; i < content.length; i++) {
+            writer.append(content[i]);  // writes the bytes
         }
         writer.close();  //关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉
         fos.close();  // 关闭输出流,释放系统资源
