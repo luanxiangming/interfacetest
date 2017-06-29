@@ -46,6 +46,7 @@ class Penguin extends Animals {
     Penguin() {
         // super();
     }
+
     // 父类的构造器带有参数的，则必须在子类的构造器中显式地通过super关键字调用父类的构造器并配以适当的参数列表
     Penguin(String name, int id) {
         super(name, id);
@@ -59,7 +60,7 @@ class Penguin extends Animals {
 class SuperClass {
     int n = 1;
 
-    public SuperClass(){
+    public SuperClass() {
         System.out.println("SuperClass constructor without args");
     }
 
