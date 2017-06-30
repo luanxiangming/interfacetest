@@ -1,3 +1,5 @@
+import animals.MammalInt;
+
 /**
  * Created by Oliver on 30/06/2017.
  */
@@ -54,19 +56,4 @@ interface Hockey extends Sports {
 2. 向一个类添加数据类型：
 这种情况是标记接口最初的目的，实现标记接口的类不需要定义任何接口方法(因为标记接口根本就没有方法)，但是该类通过多态性变成一个接口类型。*/
 interface FlagInterface {
-}
-
-class MammalInt implements AnimalInterface {
-    public void eat() {
-        System.out.println("MammalInt.eat()");
-    }
-
-    public void travel() {
-        System.out.println("MammalInt.travel()");
-    }
-
-    public int noOfLegs() {
-        return 0;
-    }
-
 }

@@ -4,7 +4,7 @@
 public class Abstracts {
     public static void main(String[] args) {
         Salary s = new Salary("James Salary", "Shanghai", 7, 20000);
-        AbstractEmployee e = new Salary("John Employee", "Tokyo", 9, 30000);
+        Employee e = new Salary("John Employee", "Tokyo", 9, 30000);
 
         System.out.println("Call mailCheck using Salary reference --");
         s.mailCheck();
@@ -16,7 +16,7 @@ public class Abstracts {
 }
 
 
-class Salary extends AbstractEmployee {
+class Salary extends Employee {
     private double salary;
 
     public Salary(String name, String address, int number, double salary) {
@@ -54,12 +54,12 @@ class Salary extends AbstractEmployee {
 4. 构造方法，类方法（用static修饰的方法）不能声明为抽象方法。
 5. 抽象类的子类必须给出抽象类中的抽象方法的具体实现，除非该子类也是抽象类。
 */
-abstract class AbstractEmployee {
+abstract class Employee {
     private String name;
     private String address;
     private int number;
 
-    public AbstractEmployee(String name, String address, int number) {
+    public Employee(String name, String address, int number) {
         System.out.println("Constructing an Employee");
         this.name = name;
         this.address = address;

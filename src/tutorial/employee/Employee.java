@@ -1,3 +1,5 @@
+package employee;
+
 /**
  * Created by Oliver on 25/06/2017.
  */
@@ -24,10 +26,10 @@ public class Employee {
     }
 
     public void printEmployee() {
-        System.out.println("Employee name: " + this.name);
-        System.out.println("Employee age: " + this.age);
-        System.out.println("Employee designation: " + this.designation);
-        System.out.println("Employee salary: " + this.salary);
+        System.out.println("employee.Employee name: " + this.name);
+        System.out.println("employee.Employee age: " + this.age);
+        System.out.println("employee.Employee designation: " + this.designation);
+        System.out.println("employee.Employee salary: " + this.salary);
     }
 
 }
