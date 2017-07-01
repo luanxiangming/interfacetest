@@ -9,7 +9,7 @@ import java.util.Set;
  */
 
 /**
- * Properties 继承于 Hashtable.Properties 类表示了一个持久的属性集.属性列表中每个键及其对应值都是一个字符串。
+ * Properties 继承于 Hashtable. Properties 类表示了一个持久的属性集.属性列表中每个键及其对应值都是一个字符串。
  * Properties 类被许多Java类使用。例如，在获取环境变量时它就作为System.getProperties()方法的返回值。
  */
 public class Propertys {
