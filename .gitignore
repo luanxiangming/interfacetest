@@ -16,7 +16,7 @@ interfacetest.iml
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package file.Files #
 #*.jar
 *.war
 *.ear

@@ -1,9 +1,11 @@
 package employee;
 
+import java.io.Serializable;
+
 /**
  * Created by Oliver on 25/06/2017.
  */
-public class Employee {
+public class Employee implements Serializable {
     int age;
     double salary;
     String name;
@@ -23,6 +25,22 @@ public class Employee {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDesignation() {
+        return designation;
     }
 
     public void printEmployee() {
