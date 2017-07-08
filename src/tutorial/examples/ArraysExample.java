@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by Oliver on 05/07/2017.
  */
-public class ArrayExample {
+public class ArraysExample {
     public static void main(String[] args) {
         /* 数组排序及元素查找 */
         sort_search();
