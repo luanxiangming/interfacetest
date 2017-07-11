@@ -26,6 +26,7 @@ public class Files {
 
         FileInputStream fis = new FileInputStream(filePath);  // 构建FileInputStream对象
         // 构建InputStreamReader对象,编码与写入相同
+        // InputStreamReader：是字节流通往字符流的桥梁，使用指定的charset读取字节并解码成字符
         InputStreamReader reader = new InputStreamReader(fis, "UTF-8");
 
         StringBuffer buffer = new StringBuffer();

@@ -10,6 +10,7 @@ public class IO {
         // 把 System.in 包装在一个 BufferedReader 对象中来创建一个字符流
         char c;
         String s;
+        // InputStreamReader：是字节流通往字符流的桥梁，使用指定的charset读取字节并解码成字符
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Input character, 'q' to exit");
         // 使用 BufferedReader 在控制台读取字符
