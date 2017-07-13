@@ -11,12 +11,18 @@ import java.util.stream.Collectors;
  */
 public class Stream {
     public static void main(String[] args) {
-
         /**
-         * 在 Java 8 中, 集合接口有两个方法来生成流：
-         * stream() − 为集合创建串行流。
-         * parallelStream() − 为集合创建并行流。
+         * Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。
+         * Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。
+         * Stream API可以极大提供Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。
+         * 这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等
+         * 元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。
+         *
+         * | stream of elements +-----> |filter+-> |sorted+-> |map+-> |collect|
          */
+
+
+        // stream() − 为集合创建串行流。
         stream();
 
         /* Stream 提供了新的方法 'forEach' 来迭代流中的每个数据。以下代码片段使用 forEach 输出了10个随机数 */
@@ -68,6 +74,10 @@ public class Stream {
     public static void sort(int limit) {
         Random random = new Random();
         random.ints().limit(limit).sorted().forEach(System.out::println);
+
+        List<String> list = Arrays.asList("abc", "", "bc", "efg", "abd", "", "jkl");
+        List<String> sorted = list.stream().sorted(String::compareTo).collect(Collectors.toList());
+        System.out.println("sorted string list: " + sorted);
     }
 
     public static void parallelStream() {
