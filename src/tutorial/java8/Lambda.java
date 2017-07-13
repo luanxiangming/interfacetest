@@ -64,7 +64,6 @@ public class Lambda {
         GreetingService greetingService2 = (message) -> System.out.println("Greetings, " + message);  // 用括号
         greetingService1.sayMessage("Google");
         greetingService2.sayMessage("Apple");
-
     }
 
     private static int operate(int a, int b, MathOperation mathOperation) {
@@ -78,6 +77,5 @@ public class Lambda {
     interface GreetingService {
         void sayMessage(String message);
     }
-
 
 }
